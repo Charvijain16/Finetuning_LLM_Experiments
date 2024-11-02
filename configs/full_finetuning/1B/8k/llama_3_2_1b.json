@@ -3,7 +3,7 @@
 
     "device":"auto",
 
-    "train_data_path":"data/train.json",
+    "train_data_path":"/data/horse/ws/chja176b-sysbio_cj/git_repos/Finetuning_LLM_Experiments/data/train.json",
     "use_sys_instruction":true,
     "use_example":false,
     "use_format_instruction":true,
@@ -13,7 +13,7 @@
     "dtype":null,
     "load_in_4bit":false,
 
-    "output_dir_path" : "",
+    "output_dir_path" : "/data/horse/ws/chja176b-sysbio_cj/git_repos/Finetuning_LLM_Experiments/finetuned_models",
     
     "lora_r": 16,
     "lora_alpha":8,
@@ -36,9 +36,9 @@
     "gradient_checkpointing":true,
     "gradient_checkpointing_kwargs":{"use_reentrant": true},
 
-    "save_steps" :2500,
+    "save_steps" :10,
     "logging_steps" : 1,
-    "max_steps" : 10000,
+    "max_steps" : 10,
     "report_to":"wandb",
 
     "packing":false

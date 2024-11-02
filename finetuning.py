@@ -20,6 +20,7 @@ from utils import categorize_size
 # Set up argument parsing
 parser = argparse.ArgumentParser(description="Load configuration for the script")
 parser.add_argument('--config', type=str, required=True, help="Path to the JSON config file")
+parser.add_argument('--job_id', type=str, help="SLURM job ID")  # Add job_id argument
 args = parser.parse_args()
 
 # Load the config file
@@ -31,7 +32,15 @@ os.environ['XFORMERS_MORE_DETAILS'] = '1'
 base_dir = Path(config["output_dir_path"])
 is_full_finetuning = config["is_full_finetuning"]
 
-model_dir = f"{"full_ft" if is_full_finetuning else "lora_ft"}_{categorize_size(config["model_name"])}_{config["max_seq_length"]//1024}k_{os.path.basename(args.config)}_{"unsloth" if "unsloth" in config["model_name"] else ""}"
+config_name= os.path.basename(args.config).split('.')[0]
+
+model_dir = (
+    f"{'full_ft' if is_full_finetuning else 'lora_ft'}/"
+    f"{categorize_size(config['model_name'])}/"
+    f"{config['max_seq_length'] // 1024}k/"
+    f"{args.job_id}_{config_name}_"
+    f"{'unsloth' if 'unsloth' in config['model_name'] else ''}"
+)
 result_dir= base_dir / model_dir
 result_dir.mkdir(parents=True, exist_ok=True)
 
@@ -101,8 +110,14 @@ train_dataset = json.load(f1)
 
 full_prompt_dataset = []
 for i, entry in enumerate(train_dataset):
-  text = prompt.format(instruction=f"{system_instruction if config["use_sys_instruction"] else ""}{example if config["use_example"] else ""}{format_instruction if config["use_format_instruction"] else ""}", question=entry["question"], output=entry["assistant_reponse"])
-  full_prompt_dataset.append(text)
+    instruction = (
+        f"{system_instruction if config['use_sys_instruction'] else ''}"
+        f"{example if config['use_example'] else ''}"
+        f"\n{format_instruction if config['use_format_instruction'] else ''}"
+    )
+
+    text = prompt.format(instruction=instruction, question=entry["question"], output=entry["assistant_reponse"])
+    full_prompt_dataset.append(text)
 
 training_dataset = { "text" : full_prompt_dataset, }
 
