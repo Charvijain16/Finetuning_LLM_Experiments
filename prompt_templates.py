@@ -1,4 +1,7 @@
-llama_3_2_prompt = """ """
+llama_3_2_prompt = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+{instruction}<|eot_id|><|start_header_id|>user<|end_header_id|>
+{question}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+{output}<|eot_id|>"""
 
 llama_3_1_prompt = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 {instruction}<|eot_id|><|start_header_id|>user<|end_header_id|>

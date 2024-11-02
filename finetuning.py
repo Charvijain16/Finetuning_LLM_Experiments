@@ -13,7 +13,6 @@ from unsloth import FastLanguageModel
 from unsloth import is_bfloat16_supported
 import argparse
 import json
-import re
 from pathlib import Path
 
 from utils import categorize_size
@@ -32,7 +31,7 @@ os.environ['XFORMERS_MORE_DETAILS'] = '1'
 base_dir = Path(config["output_dir_path"])
 is_full_finetuning = config["is_full_finetuning"]
 
-model_dir = f"{"full_ft" if is_full_finetuning else "lora_ft"}_{categorize_size(config["model_name"])}_{config["max_seq_length"]//1024}k_{os.path.basename(args.config)}"
+model_dir = f"{"full_ft" if is_full_finetuning else "lora_ft"}_{categorize_size(config["model_name"])}_{config["max_seq_length"]//1024}k_{os.path.basename(args.config)}_{"unsloth" if "unsloth" in config["model_name"] else ""}"
 result_dir= base_dir / model_dir
 result_dir.mkdir(parents=True, exist_ok=True)
 

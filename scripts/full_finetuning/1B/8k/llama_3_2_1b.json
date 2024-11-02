@@ -1,0 +1,45 @@
+{
+    "is_full_finetuning":true,
+
+    "device":"auto",
+
+    "train_data_path":"data/train.json",
+    "use_sys_instruction":true,
+    "use_example":false,
+    "use_format_instruction":true,
+
+    "model_name":"unsloth/Llama-3.2-1B-Instruct",
+    "max_seq_length":8192,
+    "dtype":null,
+    "load_in_4bit":false,
+
+    "output_dir_path" : "",
+    
+    "lora_r": 16,
+    "lora_alpha":8,
+    "lora_dropout": 0.1,
+
+    "auto_find_batch_size":true,
+    "per_device_train_batch_size" : 2,
+    
+    "optimizer" : "adamw_8bit",
+    "learning_rate" : 2e-4,
+    "lr_scheduler_type" : "linear",
+
+    "max_grad_norm" : 0.3,
+    "weight_decay" : 0.01,
+    "warmup_steps" : 5,
+
+    "bf16":true,
+
+    "gradient_accumulation_steps" : 4,
+    "gradient_checkpointing":true,
+    "gradient_checkpointing_kwargs":{"use_reentrant": true},
+
+    "save_steps" :2500,
+    "logging_steps" : 1,
+    "max_steps" : 10000,
+    "report_to":"wandb",
+
+    "packing":false
+}
